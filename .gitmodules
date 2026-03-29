@@ -1,0 +1,15 @@
+[submodule "tests/WebGL"]
+	path = tests/WebGL
+	url = https://github.com/okuoku/WebGL
+[submodule "nccc"]
+	path = nccc
+	url = https://github.com/okuoku/nccc
+[submodule "cwgl"]
+	path = cwgl
+	url = https://github.com/okuoku/cwgl
+[submodule "runtime"]
+	path = runtime
+	url = https://github.com/okuoku/em2native-runtime/
+[submodule "grpbase"]
+	path = grpbase
+	url = https://github.com/okuoku/grpbase
