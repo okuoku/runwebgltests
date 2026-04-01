@@ -13,3 +13,6 @@
 [submodule "grpbase"]
 	path = grpbase
 	url = https://github.com/okuoku/grpbase
+[submodule "node-api-headers"]
+	path = node-api-headers
+	url = https://github.com/nodejs/node-api-headers

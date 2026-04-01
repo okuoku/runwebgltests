@@ -3,7 +3,7 @@
 set(anglebin
     ${CMAKE_CURRENT_LIST_DIR}/grpbase/ext/angle/out)
 
-set(angleout ${CMAKE_CURRENT_LIST_DIR}/_angle)
+set(angleout ${CMAKE_CURRENT_LIST_DIR}/_nccc)
 
 set(libs
     libEGL.dylib
