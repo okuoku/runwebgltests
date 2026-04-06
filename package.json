@@ -1,0 +1,16 @@
+{
+    "imports":{
+        "#runtime/*": {
+            "node": "./runtime/*"
+        },
+        "#env/*": {
+            "node": "./es6/*"
+        },
+        "#loader/*": {
+            "node": "./*"
+        },
+        "#build/*": {
+            "node": "./build/*"
+        }
+    }
+}
