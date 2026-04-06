@@ -6,6 +6,10 @@ set(USE_BUNDLED_ANGLE ON)
 # NCCCSupport
 include(${CMAKE_CURRENT_LIST_DIR}/nccc/stubsupport/cmake/NcccStubMacros.cmake)
 
+# NCCC config
+set(NCCC_DEBUG_MODULES_PREFIX ${CMAKE_CURRENT_LIST_DIR}/_nccc)
+set(NCCC_DEBUG_NODE_MODULES ${CMAKE_CURRENT_LIST_DIR}/_nccc)
+
 # cwgl (PlatformGLES)
 set(CWGL_LEVEL_L2 ON)
 if(USE_BUNDLED_ANGLE)
@@ -13,14 +17,19 @@ if(USE_BUNDLED_ANGLE)
         ${CMAKE_CURRENT_LIST_DIR}/grpbase/ext/angle/include)
 endif()
 set(YFRM_CWGL_USE_PLATFORMGLES ON)
+set(CWGL_USE_EGL_CTX ON)
+set(CWGL_BUILD_MODULE ON)
 add_subdirectory(cwgl)
+if(USE_BUNDLED_ANGLE)
+    target_link_directories(cwgl
+        PRIVATE
+        ${CMAKE_CURRENT_LIST_DIR}/_nccc)
+endif()
 
 # nccc stubsupport
 add_subdirectory(nccc/stubsupport stubsupport)
 
 # node-nccc
-set(NCCC_DEBUG_MODULES_PREFIX ${CMAKE_CURRENT_LIST_DIR}/_nccc)
-set(NCCC_DEBUG_NODE_MODULES ${CMAKE_CURRENT_LIST_DIR}/_nccc)
 set(WITH_NODE_API_HEADERS ${CMAKE_CURRENT_LIST_DIR}/node-api-headers)
 add_subdirectory(nccc/js/node/node-nccc node-nccc)
 
@@ -38,18 +47,11 @@ target_include_directories(nccc_cwgl
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_LIST_DIR}/nccc/stubsupport)
 
-if(USE_BUNDLED_ANGLE)
-    target_link_directories(nccc_cwgl
-        PRIVATE
-        ${CMAKE_CURRENT_LIST_DIR}/_nccc)
-endif()
 if(NOT TARGET cwgl)
     message(FATAL_ERROR "No cwgl target?")
 endif()
 target_link_libraries(nccc_cwgl 
-    cwgl 
-    # PlatformGLES
-    EGL GLESv2)
+    cwgl)
 
 if(APPLE)
     set_target_properties(nccc_cwgl
@@ -60,3 +62,7 @@ if(APPLE)
         BUILD_WITH_INSTALL_RPATH ON)
 endif()
 
+add_custom_command(TARGET nccc_cwgl POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+    "$<TARGET_FILE:cwgl>"     
+    "${NCCC_DEBUG_NODE_MODULES}/libnccc_cwgl.so")
