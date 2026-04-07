@@ -41,6 +41,7 @@ add_library(nccc_cwgl MODULE
     stubs/nccc_cwgl.c)
 target_compile_definitions(nccc_cwgl
     PRIVATE
+    NCCC_DLL
     CWGL_LEVEL_L2)
 target_include_directories(nccc_cwgl
     PRIVATE
@@ -64,5 +65,5 @@ endif()
 
 add_custom_command(TARGET nccc_cwgl POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy
-    "$<TARGET_FILE:cwgl>"     
+    "$<TARGET_FILE:nccc_cwgl>"     
     "${NCCC_DEBUG_NODE_MODULES}/libnccc_cwgl.so")
